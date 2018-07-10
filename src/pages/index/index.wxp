@@ -1,0 +1,16 @@
+<template>
+	<view>Index Page</view>
+</template>
+
+<script>
+export default {
+	config: {
+		navigationBarTitleText: '首页ddd',
+		usingComponents: {}
+	},
+	data: {}
+}
+</script>
+
+<style>
+</style>

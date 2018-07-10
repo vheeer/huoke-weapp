@@ -1,0 +1,121 @@
+<template>
+  <wxc-notice scroll="{{true}}" close="{{true}}" bg-color="#ff9300" bg-rgba="rgba(255, 147, 0, 0)" show-icon="{{true}}" notice="{{notice}}"></wxc-notice>
+  <view>
+      <view>
+        <image mode="widthFix" src="https://huoke-hupu-1256171234.cos.ap-beijing.myqcloud.com/%E5%B9%B3%E5%AE%89%E6%99%AE%E6%83%A0/%E9%A6%96%E9%A1%B5%E9%A1%B6%E5%9B%BE%EF%BC%88%E4%BF%AE%E6%94%B9%EF%BC%89.jpg" />
+      </view>
+
+      <view>
+        <image mode="widthFix" src="https://huoke-hupu-1256171234.cos.ap-beijing.myqcloud.com/%E5%B9%B3%E5%AE%89%E6%99%AE%E6%83%A0/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%A6%96%E9%A1%B5%E5%9B%BE.jpg" />
+      </view>
+      <view>
+        <image mode="widthFix" src="https://huoke-hupu-1256171234.cos.ap-beijing.myqcloud.com/%E5%B9%B3%E5%AE%89%E6%99%AE%E6%83%A0/%E5%A4%A7%E9%A2%9D%E4%BF%A1%E7%94%A8%E5%8D%A1.jpg" />
+      </view>
+  <!-- 按钮开始 -->
+  <view class="button-large-wrap">
+    <button wx:if="{{!globalData.userInfo}}" open-type="getUserInfo" class="submit" bindgetuserinfo="bindGetUserInfo" size="large" type="beauty" value="large button">查询额度</button>
+    <button wx:if="{{globalData.userInfo}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">立即查询</button>
+  </view>
+  <!-- 按钮结束 -->
+  </view>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationBarTitleText: '速秒贷',
+    usingComponents: {
+      'wxc-notice': '@minui/wxc-notice'
+    }
+  },
+  data: {
+    notice: "123456789| "
+  },
+  onShow: function(options) {
+    const app = getApp();
+    const globalData = app.globalData;
+    console.log(globalData);
+    this.setData({ globalData });
+  },
+  bindGetUserInfo: function(e) {
+    const that = this;
+    const app = getApp();
+    const user = require("../../services/user");
+    console.log("e.detail.errMsg", e.detail.errMsg);
+    console.log("e.detail.userInfo", e.detail.userInfo);
+    app.globalData.userInfo = e.detail.userInfo;
+
+    //存储用户信息
+    wx.setStorageSync('userInfo', e.detail.userInfo);
+    //信息放到全局
+    app.globalData.userInfo = e.detail.userInfo;
+
+    user.loginByWeixin().then(res => {
+        console.log("点击登录小程序微信登陆成功", res);
+        //存储用户信息
+        wx.setStorageSync('userInfo', res.data.userInfo);
+        wx.setStorageSync('openid', res.data.openid);
+        wx.setStorageSync('token', res.data.token);
+        //信息放到全局
+        app.globalData.openid = res.data.openid;
+        app.globalData.userInfo = res.data.userInfo;
+        app.globalData.token = res.data.token;
+        // 信息提到本页
+        that.setData({ globalData: app.globalData });
+        wx.showModal({
+          title: "提示",
+          content: "登录成功,请继续",
+          showCancel: false
+        })
+      }).catch(err => {
+        console.log("点击登录小程序微信登陆失败：", err);
+        wx.showModal({
+          title: "提示",
+          content: "登录失败",
+          showCancel: false
+        })
+      })
+  },
+  getPhoneNumber(e){
+    const that = this;
+    const app = getApp();
+    console.log("e.detail.errMsg", e.detail.errMsg);
+    console.log("e.detail.iv", e.detail.iv);
+    console.log("e.detail.encryptedData", e.detail.encryptedData);
+    console.log("app.globalData", app.globalData);
+
+    const { iv, encryptedData } = e.detail;
+    if(iv && encryptedData)
+    {
+      wx.request({
+        url: 'https://www.yinmudianying.club/huoke-dev/api/user/number?mch=huipu',
+        method: 'POST',
+        data: { 
+          iv, 
+          encryptedData,
+          openid: app.globalData.openid
+        },
+        success: function(res) {
+          console.log(res.data);
+          wx.navigateTo({
+            url: '../submit/index'
+          })
+        }
+      });
+    }
+  }
+}
+</script>
+
+<style>
+image {
+  display: block;
+  width: 100%;
+  height: 200px;
+}
+button {
+  background-color:#FE8800;
+  color:white;
+  margin:14px 0 0px 0;
+}
+</style>

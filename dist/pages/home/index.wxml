@@ -1,0 +1,25 @@
+<view>
+    <!-- wxp template -->
+    <wxc-notice scroll="{{true}}" close="{{true}}" bg-color="#ff9300" bg-rgba="rgba(255, 147, 0, 0)" show-icon="{{true}}" notice="{{notice}}" _pid="{{_pid}}"></wxc-notice>
+    <view>
+        <view>
+            <image mode="widthFix" src="https://huoke-hupu-1256171234.cos.ap-beijing.myqcloud.com/%E5%B9%B3%E5%AE%89%E6%99%AE%E6%83%A0/%E9%A6%96%E9%A1%B5%E9%A1%B6%E5%9B%BE%EF%BC%88%E4%BF%AE%E6%94%B9%EF%BC%89.jpg">
+            </image>
+        </view>
+
+        <view>
+            <image mode="widthFix" src="https://huoke-hupu-1256171234.cos.ap-beijing.myqcloud.com/%E5%B9%B3%E5%AE%89%E6%99%AE%E6%83%A0/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E9%A6%96%E9%A1%B5%E5%9B%BE.jpg">
+            </image>
+        </view>
+        <view>
+            <image mode="widthFix" src="https://huoke-hupu-1256171234.cos.ap-beijing.myqcloud.com/%E5%B9%B3%E5%AE%89%E6%99%AE%E6%83%A0/%E5%A4%A7%E9%A2%9D%E4%BF%A1%E7%94%A8%E5%8D%A1.jpg">
+            </image>
+        </view>
+        <!-- 按钮开始 -->
+        <view class="button-large-wrap">
+            <button wx:if="{{!globalData.userInfo}}" open-type="getUserInfo" class="submit" bindgetuserinfo="bindGetUserInfo" size="large" type="beauty" value="large button">查询额度</button>
+            <button wx:if="{{globalData.userInfo}}" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">立即查询</button>
+        </view>
+        <!-- 按钮结束 -->
+    </view>
+</view>

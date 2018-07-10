@@ -1,0 +1,33 @@
+<view>
+    <!-- wxp template -->
+    <view>
+        <view>
+            <image mode="widthFix" src="https://huoke-hupu-1256171234.cos.ap-beijing.myqcloud.com/%E5%B9%B3%E5%AE%89%E6%99%AE%E6%83%A0/%E7%94%B3%E8%AF%B7%E8%B4%B7%E6%AC%BE%E9%A1%B5%E9%9D%A2%E9%A1%B6%E7%AB%AF%E4%BF%AE%E6%94%B9%E5%9B%BE.jpg"></image>
+        </view>
+        <!-- 表单开始 -->
+        <view class="container input">
+            <view class="input-wrap">
+                <wxc-input type="text" bind:input="real_name_input" title="姓名" placeholder="请输入姓名" _pid="{{_pid}}"></wxc-input>
+                <wxc-input type="text" bind:input="loan_price_input" title="贷款金额" mode="none" placeholder="请输入贷款金额" _pid="{{_pid}}"></wxc-input>
+            </view>
+        </view>
+        <!-- 表单结束 -->
+        <!-- 列表开始 -->
+        <block wx:for="{{list}}" wx:key="item">
+            <view class="list-wrap">
+                <view class="list-item">
+                    <wxc-list class="item" title="{{item[0].title}}" data-key="{{item[0].key}}" desc="{{item[0].selected_title}}" mode="{{index == list.length-1 ? 'none': ''}}" icon="feedback" bind:click="onClick" _pid="{{_pid}}">
+
+                        <view wx:if="{{item[0].slot && item[0].desc}}" class="desc-highlight">{{item.desc}}</view>
+                    </wxc-list>
+                    <wxc-select wx:if="{{focus === item[0].key}}" items="{{item[0].rel}}" data-key="{{item[0].key}}" color="#28a745" checked="1" bind:change="onChange" _pid="{{_pid}}"></wxc-select>
+                </view>
+            </view>
+        </block>
+        <!-- 列表结束 -->
+
+        <view>
+            <button bindtap="onSubmit">提交申请</button>
+        </view>
+    </view>
+</view>

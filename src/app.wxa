@@ -1,0 +1,55 @@
+<template>
+  <view>
+    <!-- wxp template -->
+    <page></page>
+  </view>
+</template>
+
+<script>
+  const user = require('./services/user.js');
+  export default {
+    config: {
+      pages: [],
+      window: {
+        backgroundTextStyle: 'dark',
+        backgroundColor: '#efefef',
+        navigationBarBackgroundColor: '#ffffff',
+        navigationBarTitleText: 'Min 小程序示例项目',
+        navigationBarTextStyle: 'black'
+      },
+      networkTimeout: {
+        request: 10000
+      }
+    },
+    globalData: { },
+    onLaunch () { 
+      const that = this;
+      that.globalData = {};
+      user.loginByWeixin().then(res => {
+        console.log("进入小程序微信登陆成功", "res");
+        //信息放到全局
+        that.globalData.openid = res.data.openid;
+        that.globalData.userInfo = res.data.userInfo;
+        that.globalData.token = res.data.token;
+      }).catch(err => {
+        console.log("进入小程序微信登陆失败：", err);
+      })
+    },
+    onShow () { },
+    onHide () { }
+  }
+</script>
+
+<style>
+page {
+  background-color: #F8F8F8;
+  height: 100%;
+  font-size: 32rpx;
+  line-height: 1.5;
+}
+button {
+  background-color: #FE8800;
+  color: white;
+  /*margin: 2px;*/
+}
+</style>

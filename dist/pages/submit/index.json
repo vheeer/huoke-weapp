@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "wxc-select": "../../packages/@minui/wxc-select/dist/index",
+    "wxc-list": "../../packages/@minui/wxc-list/dist/index",
+    "wxc-button": "../../packages/@minui/wxc-button/dist/index",
+    "wxc-input": "../../packages/@minui/wxc-input/dist/index"
+  },
+  "navigationBarTitleText": "速秒贷"
+}
